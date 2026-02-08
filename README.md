@@ -1,26 +1,84 @@
-# Ceu-Estrelado
-Uma página com fundo escuro (preto ou azul noturno) cheia de estrelas piscando. Quando a página carrega ou quando ela clica em algum botão, algumas estrelas específicas começam a se conectar formando linhas, revelando uma mensagem romântica, as iniciais de vocês, um coração, ou uma data especial
+# ✨ Céu Estrelado Romântico
 
-Elementos visuais:
+Uma página web interativa e romântica com céu estrelado que exibe constelações animadas formando mensagens de amor.
 
-Fundo degradê simulando o céu noturno (do azul escuro ao preto)
-Centenas de pontinhos brilhantes espalhados aleatoriamente (as estrelas)
-Algumas estrelas piscam em ritmos diferentes para dar realismo
-Talvez uma lua no canto
-Estrelas cadentes ocasionais passando pela tela
+![Preview](https://img.shields.io/badge/Status-Completo-success)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
-Interatividade:
+## 🌟 Funcionalidades
 
-Ao carregar a página, as estrelas aparecem gradualmente
-Depois de alguns segundos, linhas começam a conectar certas estrelas específicas, formando a constelação da sua mensagem
-Pode ter uma animação suave onde as linhas vão se desenhando devagar
-Quando a constelação estiver completa, a mensagem/iniciais brilham mais forte
-Opcional: ao passar o mouse pelas estrelas, elas crescem ou mudam de cor
+### Visuais
+- 🌙 Fundo degradê simulando céu noturno (azul escuro → roxo → preto)
+- ⭐ Mais de 400 estrelas piscando em ritmos e tamanhos diferentes
+- 🌕 Lua decorativa com efeito de brilho pulsante
+- 💫 Estrelas cadentes ocasionais cruzando a tela
 
-Mensagens que a constelação pode formar:
+### Constelações Aleatórias
+A cada vez que a página é carregada, uma constelação é escolhida aleatoriamente:
+- **"EU TE AMO"** - Declaração de amor
+- **"V + M"** - Iniciais do casal
+- **❤️ Coração** - Símbolo de amor
+- **"13/05/2023"** - Data especial do relacionamento
+- **"MEU DOCINHO"** - Apelido carinhoso
+- **"VIVO POR VOCÊ"** - Mensagem romântica
 
-"EU TE AMO"
-Iniciais: "V + M" (suas iniciais)
-Um coração
-Data do relacionamento
-"PARA SEMPRE"
+### Animações
+1. Estrelas aparecem gradualmente ao carregar
+2. Após 2-3 segundos, linhas começam a conectar as estrelas
+3. O desenho das linhas é suave e progressivo
+4. Ao completar, a constelação brilha intensamente
+5. Estrelas piscam continuamente em ritmos diferentes
+6. Ao passar o mouse, estrelas crescem levemente
+
+## 🚀 Como Usar
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/matheusmontev/Ceu-Estrelado.git
+```
+
+2. Abra o arquivo `index.html` no navegador
+
+3. Recarregue a página para ver diferentes constelações! 🔄
+
+## 📱 Responsivo
+
+O projeto é totalmente responsivo, adaptando-se a:
+- 🖥️ Desktop
+- 📱 Mobile
+- 📲 Tablet
+
+## 🛠️ Tecnologias
+
+- **HTML5** - Estrutura semântica
+- **CSS3** - Animações, gradientes e efeitos visuais
+- **JavaScript Puro** - Sem bibliotecas externas
+
+## 📁 Estrutura
+
+```
+Ceu-Estrelado/
+├── index.html    # Página principal
+├── style.css     # Estilos e animações
+├── script.js     # Lógica das constelações
+└── README.md     # Documentação
+```
+
+## 💕 Personalização
+
+Para personalizar as mensagens, edite o objeto `CONSTELLATIONS` no arquivo `script.js`:
+
+```javascript
+const CONSTELLATIONS = {
+    "SUA MENSAGEM": {
+        points: [...],      // Coordenadas das estrelas
+        connections: [...]  // Conexões entre estrelas
+    }
+};
+```
+
+---
+
+Feito com 💜 para momentos especiais
