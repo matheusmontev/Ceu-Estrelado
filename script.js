@@ -284,7 +284,202 @@ const CONSTELLATIONS = {
             // V
             [38, 39], [39, 40],
             // C
-            [41, 42], [42, 43], [43, 44], [44, 45]
+        ]
+    }
+};
+
+// ============================================
+// CONSTELAÇÕES VERSÃO MOBILE (Layout Vertical)
+// Para telas em modo portrait
+// ============================================
+
+const CONSTELLATIONS_MOBILE = {
+    // "EU TE AMO" - Versão vertical em 3 linhas
+    "EU TE AMO": {
+        points: [
+            // Linha 1: "EU"
+            // E
+            { x: 0.25, y: 0.18 }, { x: 0.25, y: 0.23 }, { x: 0.25, y: 0.28 },
+            { x: 0.35, y: 0.18 }, { x: 0.33, y: 0.23 }, { x: 0.35, y: 0.28 },
+            // U
+            { x: 0.50, y: 0.18 }, { x: 0.50, y: 0.23 }, { x: 0.50, y: 0.28 },
+            { x: 0.55, y: 0.28 }, { x: 0.60, y: 0.28 },
+            { x: 0.60, y: 0.23 }, { x: 0.60, y: 0.18 },
+
+            // Linha 2: "TE"
+            // T
+            { x: 0.25, y: 0.40 }, { x: 0.35, y: 0.40 }, { x: 0.45, y: 0.40 },
+            { x: 0.35, y: 0.45 }, { x: 0.35, y: 0.50 },
+            // E
+            { x: 0.55, y: 0.40 }, { x: 0.55, y: 0.45 }, { x: 0.55, y: 0.50 },
+            { x: 0.65, y: 0.40 }, { x: 0.63, y: 0.45 }, { x: 0.65, y: 0.50 },
+
+            // Linha 3: "AMO"
+            // A
+            { x: 0.15, y: 0.72 }, { x: 0.20, y: 0.62 }, { x: 0.25, y: 0.72 },
+            { x: 0.175, y: 0.68 }, { x: 0.225, y: 0.68 },
+            // M
+            { x: 0.35, y: 0.72 }, { x: 0.35, y: 0.67 }, { x: 0.35, y: 0.62 },
+            { x: 0.40, y: 0.67 }, { x: 0.45, y: 0.62 },
+            { x: 0.45, y: 0.67 }, { x: 0.45, y: 0.72 },
+            // O
+            { x: 0.58, y: 0.65 }, { x: 0.55, y: 0.67 }, { x: 0.58, y: 0.70 },
+            { x: 0.65, y: 0.70 }, { x: 0.68, y: 0.67 }, { x: 0.65, y: 0.65 }
+        ],
+        connections: [
+            // E (linha 1)
+            [0, 1], [1, 2], [0, 3], [1, 4], [2, 5],
+            // U
+            [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 12],
+            // T (linha 2)
+            [13, 14], [14, 15], [14, 16], [16, 17],
+            // E
+            [18, 19], [19, 20], [18, 21], [19, 22], [20, 23],
+            // A (linha 3)
+            [24, 25], [25, 26], [27, 28],
+            // M
+            [29, 30], [30, 31], [31, 32], [32, 33], [33, 34], [34, 35],
+            // O
+            [36, 37], [37, 38], [38, 39], [39, 40], [40, 41], [41, 36]
+        ]
+    },
+
+    // "V + M" - Já centralizado, funciona bem
+    "V + M": {
+        points: [
+            { x: 0.25, y: 0.35 }, { x: 0.40, y: 0.55 }, { x: 0.55, y: 0.35 },
+            { x: 0.40, y: 0.60 }, { x: 0.40, y: 0.65 }, { x: 0.40, y: 0.70 },
+            { x: 0.35, y: 0.65 }, { x: 0.45, y: 0.65 },
+            { x: 0.25, y: 0.90 }, { x: 0.25, y: 0.80 }, { x: 0.25, y: 0.75 },
+            { x: 0.40, y: 0.82 }, { x: 0.55, y: 0.75 },
+            { x: 0.55, y: 0.82 }, { x: 0.55, y: 0.90 }
+        ],
+        connections: [
+            [0, 1], [1, 2], [3, 4], [4, 5], [6, 4], [4, 7],
+            [8, 9], [9, 10], [10, 11], [11, 12], [12, 13], [13, 14]
+        ]
+    },
+
+    // Coração - Centralizado e maior
+    "CORAÇÃO": {
+        points: [
+            { x: 0.50, y: 0.75 },
+            { x: 0.30, y: 0.50 }, { x: 0.20, y: 0.35 }, { x: 0.25, y: 0.22 },
+            { x: 0.38, y: 0.18 }, { x: 0.45, y: 0.28 },
+            { x: 0.50, y: 0.35 },
+            { x: 0.55, y: 0.28 }, { x: 0.62, y: 0.18 },
+            { x: 0.75, y: 0.22 }, { x: 0.80, y: 0.35 }, { x: 0.70, y: 0.50 }
+        ],
+        connections: [
+            [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6],
+            [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 0]
+        ]
+    },
+
+    // Data vertical
+    "13/09/2025": {
+        points: [
+            // 13 (linha 1)
+            { x: 0.30, y: 0.15 }, { x: 0.35, y: 0.15 }, { x: 0.35, y: 0.22 },
+            { x: 0.45, y: 0.15 }, { x: 0.50, y: 0.17 }, { x: 0.47, y: 0.19 },
+            { x: 0.50, y: 0.21 }, { x: 0.45, y: 0.24 },
+            // 09 (linha 2)
+            { x: 0.28, y: 0.38 }, { x: 0.25, y: 0.42 }, { x: 0.28, y: 0.46 },
+            { x: 0.35, y: 0.46 }, { x: 0.38, y: 0.42 }, { x: 0.35, y: 0.38 },
+            { x: 0.50, y: 0.38 }, { x: 0.55, y: 0.40 }, { x: 0.52, y: 0.42 },
+            { x: 0.55, y: 0.44 }, { x: 0.50, y: 0.47 },
+            // 2025 (linha 3)
+            { x: 0.18, y: 0.62 }, { x: 0.22, y: 0.60 }, { x: 0.25, y: 0.64 },
+            { x: 0.20, y: 0.68 }, { x: 0.25, y: 0.72 },
+            { x: 0.35, y: 0.62 }, { x: 0.32, y: 0.67 }, { x: 0.35, y: 0.72 },
+            { x: 0.40, y: 0.72 }, { x: 0.43, y: 0.67 }, { x: 0.40, y: 0.62 },
+            { x: 0.52, y: 0.60 }, { x: 0.48, y: 0.62 }, { x: 0.52, y: 0.66 },
+            { x: 0.55, y: 0.69 }, { x: 0.50, y: 0.72 },
+            { x: 0.62, y: 0.62 }, { x: 0.58, y: 0.64 }, { x: 0.62, y: 0.68 },
+            { x: 0.65, y: 0.72 }, { x: 0.60, y: 0.72 }
+        ],
+        connections: [
+            [0, 1], [1, 2], [3, 4], [4, 5], [5, 6], [6, 7],
+            [8, 9], [9, 10], [10, 11], [11, 12], [12, 13], [13, 8],
+            [14, 15], [15, 16], [16, 17], [17, 18],
+            [19, 20], [20, 21], [21, 22], [22, 23],
+            [24, 25], [25, 26], [26, 27], [27, 28], [28, 29], [29, 24],
+            [30, 31], [31, 32], [32, 33], [33, 34],
+            [35, 36], [36, 37], [37, 38], [38, 39]
+        ]
+    },
+
+    // MEU DOCINHO - Versão 2 linhas
+    "MEU DOCINHO": {
+        points: [
+            // MEU (linha 1)
+            { x: 0.10, y: 0.28 }, { x: 0.10, y: 0.23 }, { x: 0.10, y: 0.18 },
+            { x: 0.15, y: 0.23 }, { x: 0.20, y: 0.18 }, { x: 0.20, y: 0.23 }, { x: 0.20, y: 0.28 },
+            { x: 0.30, y: 0.18 }, { x: 0.30, y: 0.23 }, { x: 0.30, y: 0.28 },
+            { x: 0.38, y: 0.18 }, { x: 0.36, y: 0.23 }, { x: 0.38, y: 0.28 },
+            { x: 0.48, y: 0.18 }, { x: 0.48, y: 0.28 }, { x: 0.53, y: 0.28 },
+            { x: 0.58, y: 0.28 }, { x: 0.58, y: 0.18 },
+            // DOCINHO (linha 2)
+            { x: 0.08, y: 0.50 }, { x: 0.08, y: 0.58 }, { x: 0.12, y: 0.62 },
+            { x: 0.16, y: 0.58 }, { x: 0.16, y: 0.50 },
+            { x: 0.24, y: 0.52 }, { x: 0.22, y: 0.56 }, { x: 0.24, y: 0.60 },
+            { x: 0.30, y: 0.60 }, { x: 0.32, y: 0.56 }, { x: 0.30, y: 0.52 },
+            { x: 0.42, y: 0.52 }, { x: 0.38, y: 0.50 }, { x: 0.38, y: 0.62 }, { x: 0.42, y: 0.60 },
+            { x: 0.48, y: 0.50 }, { x: 0.48, y: 0.62 },
+            { x: 0.55, y: 0.62 }, { x: 0.55, y: 0.56 }, { x: 0.55, y: 0.50 },
+            { x: 0.60, y: 0.56 }, { x: 0.65, y: 0.50 }, { x: 0.65, y: 0.62 },
+            { x: 0.72, y: 0.50 }, { x: 0.72, y: 0.56 }, { x: 0.72, y: 0.62 },
+            { x: 0.78, y: 0.56 }, { x: 0.82, y: 0.50 }, { x: 0.82, y: 0.62 },
+            { x: 0.88, y: 0.52 }, { x: 0.85, y: 0.56 }, { x: 0.88, y: 0.60 },
+            { x: 0.94, y: 0.60 }, { x: 0.96, y: 0.56 }, { x: 0.94, y: 0.52 }
+        ],
+        connections: [
+            [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6],
+            [7, 8], [8, 9], [7, 10], [8, 11], [9, 12],
+            [13, 14], [14, 15], [15, 16], [16, 17],
+            [18, 19], [19, 20], [20, 21], [21, 22], [22, 18],
+            [23, 24], [24, 25], [25, 26], [26, 27], [27, 28], [28, 23],
+            [29, 30], [30, 31], [31, 32],
+            [33, 34],
+            [35, 36], [36, 37], [37, 38], [38, 39], [39, 40],
+            [41, 42], [42, 43], [43, 44], [44, 45],
+            [46, 47], [47, 48], [48, 49], [49, 50], [50, 51], [51, 46]
+        ]
+    },
+
+    // VIVO POR VOCÊ - Versão 2 linhas
+    "VIVO POR VOCÊ": {
+        points: [
+            // VIVO (linha 1)
+            { x: 0.15, y: 0.18 }, { x: 0.22, y: 0.30 }, { x: 0.29, y: 0.18 },
+            { x: 0.38, y: 0.18 }, { x: 0.38, y: 0.30 },
+            { x: 0.47, y: 0.18 }, { x: 0.54, y: 0.30 }, { x: 0.61, y: 0.18 },
+            { x: 0.70, y: 0.22 }, { x: 0.68, y: 0.26 }, { x: 0.72, y: 0.26 },
+            { x: 0.78, y: 0.26 }, { x: 0.80, y: 0.22 }, { x: 0.76, y: 0.22 },
+            // POR (linha 2)
+            { x: 0.20, y: 0.45 }, { x: 0.20, y: 0.52 }, { x: 0.28, y: 0.45 },
+            { x: 0.30, y: 0.48 }, { x: 0.28, y: 0.52 },
+            { x: 0.40, y: 0.47 }, { x: 0.38, y: 0.50 }, { x: 0.40, y: 0.53 },
+            { x: 0.47, y: 0.53 }, { x: 0.49, y: 0.50 }, { x: 0.47, y: 0.47 },
+            { x: 0.58, y: 0.45 }, { x: 0.58, y: 0.52 }, { x: 0.65, y: 0.45 },
+            { x: 0.67, y: 0.48 }, { x: 0.65, y: 0.52 }, { x: 0.68, y: 0.55 },
+            // VOCÊ (linha 3)
+            { x: 0.18, y: 0.68 }, { x: 0.28, y: 0.82 }, { x: 0.38, y: 0.68 },
+            { x: 0.48, y: 0.71 }, { x: 0.45, y: 0.75 }, { x: 0.48, y: 0.79 },
+            { x: 0.55, y: 0.79 }, { x: 0.58, y: 0.75 }, { x: 0.55, y: 0.71 },
+            { x: 0.70, y: 0.70 }, { x: 0.65, y: 0.68 }, { x: 0.65, y: 0.82 }, { x: 0.70, y: 0.80 },
+            { x: 0.80, y: 0.70 }, { x: 0.75, y: 0.68 }, { x: 0.75, y: 0.82 }, { x: 0.80, y: 0.80 }
+        ],
+        connections: [
+            [0, 1], [1, 2], [3, 4], [5, 6], [6, 7],
+            [8, 9], [9, 10], [10, 11], [11, 12], [12, 13], [13, 8],
+            [14, 15], [15, 16], [16, 17], [17, 18], [18, 15],
+            [19, 20], [20, 21], [21, 22], [22, 23], [23, 24], [24, 19],
+            [25, 26], [26, 27], [27, 28], [28, 29], [29, 26], [29, 30],
+            [31, 32], [32, 33],
+            [34, 35], [35, 36], [36, 37], [37, 38], [38, 39], [39, 34],
+            [40, 41], [41, 42], [42, 43],
+            [44, 45], [45, 46], [46, 47]
         ]
     }
 };
@@ -443,20 +638,29 @@ function updateParallax() {
 
 /**
  * Escolhe aleatoriamente uma constelação
+ * Detecta se está em mobile portrait e usa versão otimizada
  */
 function chooseRandomConstellation() {
-    const keys = Object.keys(CONSTELLATIONS);
+    const aspectRatio = window.innerWidth / window.innerHeight;
+    const isMobilePortrait = aspectRatio < 0.85;
+    
+    // Escolhe qual conjunto de constelações usar
+    const constellationSet = isMobilePortrait ? CONSTELLATIONS_MOBILE : CONSTELLATIONS;
+    
+    const keys = Object.keys(constellationSet);
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
+    
     currentConstellation = {
         name: randomKey,
-        data: CONSTELLATIONS[randomKey],
+        data: constellationSet[randomKey],
         points: [],
         drawnLines: 0,
         isComplete: false,
-        glowIntensity: 0
+        glowIntensity: 0,
+        isMobileVersion: isMobilePortrait
     };
 
-    console.log('🌟 Constelação escolhida:', randomKey);
+    console.log('🌟 Constelação escolhida:', randomKey, isMobilePortrait ? '(versão mobile)' : '(versão desktop)');
 }
 
 /**
@@ -467,33 +671,28 @@ function calculateConstellationPositions() {
     if (!currentConstellation) return;
 
     const aspectRatio = canvas.width / canvas.height;
-    const isMobilePortrait = aspectRatio < 0.75;
-    const isTabletPortrait = aspectRatio >= 0.75 && aspectRatio < 1;
-    const isLandscape = aspectRatio >= 1;
-
+    
     let paddingX, paddingY;
     let scaleX = 1;
     let scaleY = 1;
     let offsetX = 0;
     let offsetY = 0;
 
-    if (isMobilePortrait) {
-        // Mobile portrait: usa toda a largura, centraliza verticalmente
-        paddingX = canvas.width * 0.03;  // 3% de padding horizontal
-        paddingY = canvas.height * 0.25; // 25% de padding vertical (centraliza)
-
-        // Escala para caber na largura mantendo proporção legível
-        scaleX = 1;
-        scaleY = 0.35; // Comprime verticalmente para caber no espaço
-        offsetY = 0.15; // Move um pouco para baixo do centro
-
-    } else if (isTabletPortrait) {
-        // Tablet portrait: padding moderado
+    // Se estamos usando a versão mobile, as coordenadas já estão otimizadas
+    if (currentConstellation.isMobileVersion) {
+        // Versão mobile: padding mínimo, usa coordenadas diretas
         paddingX = canvas.width * 0.05;
-        paddingY = canvas.height * 0.20;
-        scaleY = 0.5;
+        paddingY = canvas.height * 0.08;
+        // Sem escala adicional - as coordenadas já estão ajustadas
+        
+    } else if (aspectRatio < 1) {
+        // Desktop/tablet portrait sem versão mobile: usa escala adaptativa
+        const minDim = Math.min(canvas.width, canvas.height);
+        paddingX = minDim * CONFIG.PADDING_PERCENT;
+        paddingY = canvas.height * 0.15;
+        scaleY = 0.6;
         offsetY = 0.1;
-
+        
     } else {
         // Landscape e desktop: usa o algoritmo original
         const minDim = Math.min(canvas.width, canvas.height);
