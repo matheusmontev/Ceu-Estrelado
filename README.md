@@ -2,11 +2,6 @@
 
 Uma página web interativa e romântica com céu estrelado que exibe constelações animadas formando mensagens de amor.
 
-![Preview](https://img.shields.io/badge/Status-Completo-success)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
-
 ## 🌟 Funcionalidades
 
 ### Visuais
@@ -20,7 +15,7 @@ A cada vez que a página é carregada, uma constelação é escolhida aleatoriam
 - **"EU TE AMO"** - Declaração de amor
 - **"V + M"** - Iniciais do casal
 - **❤️ Coração** - Símbolo de amor
-- **"13/05/2023"** - Data especial do relacionamento
+- **"13/09/2025"** - Data especial do relacionamento
 - **"MEU DOCINHO"** - Apelido carinhoso
 - **"VIVO POR VOCÊ"** - Mensagem romântica
 
@@ -81,4 +76,4 @@ const CONSTELLATIONS = {
 
 ---
 
-Feito com 💜 para momentos especiais
+Feito com 💜 para meu amor bell♥
