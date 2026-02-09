@@ -93,11 +93,11 @@ const CONSTELLATIONS = {
         ]
     },
 
-    // "V + M" - Iniciais com coração
-    "V + M": {
+    // "I + M" - Iniciais com coração
+    "I + M": {
         points: [
-            // V
-            { x: 0.20, y: 0.35 }, { x: 0.28, y: 0.65 }, { x: 0.36, y: 0.35 },
+            // I (linha vertical)
+            { x: 0.28, y: 0.35 }, { x: 0.28, y: 0.50 }, { x: 0.28, y: 0.65 },
             // +
             { x: 0.50, y: 0.42 }, { x: 0.50, y: 0.50 }, { x: 0.50, y: 0.58 },
             { x: 0.44, y: 0.50 }, { x: 0.56, y: 0.50 },
@@ -107,7 +107,7 @@ const CONSTELLATIONS = {
             { x: 0.80, y: 0.50 }, { x: 0.80, y: 0.65 }
         ],
         connections: [
-            // V
+            // I
             [0, 1], [1, 2],
             // +
             [3, 4], [4, 5], [6, 4], [4, 7],
@@ -344,18 +344,25 @@ const CONSTELLATIONS_MOBILE = {
         ]
     },
 
-    // "V + M" - Já centralizado, funciona bem
-    "V + M": {
+    // "I + M" - Versão mobile com I vertical
+    "I + M": {
         points: [
-            { x: 0.25, y: 0.35 }, { x: 0.40, y: 0.55 }, { x: 0.55, y: 0.35 },
-            { x: 0.40, y: 0.60 }, { x: 0.40, y: 0.65 }, { x: 0.40, y: 0.70 },
-            { x: 0.35, y: 0.65 }, { x: 0.45, y: 0.65 },
-            { x: 0.25, y: 0.90 }, { x: 0.25, y: 0.80 }, { x: 0.25, y: 0.75 },
-            { x: 0.40, y: 0.82 }, { x: 0.55, y: 0.75 },
-            { x: 0.55, y: 0.82 }, { x: 0.55, y: 0.90 }
+            // I (linha vertical)
+            { x: 0.40, y: 0.25 }, { x: 0.40, y: 0.35 }, { x: 0.40, y: 0.45 },
+            // +
+            { x: 0.40, y: 0.52 }, { x: 0.40, y: 0.58 }, { x: 0.40, y: 0.64 },
+            { x: 0.34, y: 0.58 }, { x: 0.46, y: 0.58 },
+            // M
+            { x: 0.25, y: 0.90 }, { x: 0.25, y: 0.80 }, { x: 0.25, y: 0.72 },
+            { x: 0.40, y: 0.82 }, { x: 0.55, y: 0.72 },
+            { x: 0.55, y: 0.80 }, { x: 0.55, y: 0.90 }
         ],
         connections: [
-            [0, 1], [1, 2], [3, 4], [4, 5], [6, 4], [4, 7],
+            // I
+            [0, 1], [1, 2],
+            // +
+            [3, 4], [4, 5], [6, 4], [4, 7],
+            // M
             [8, 9], [9, 10], [10, 11], [11, 12], [12, 13], [13, 14]
         ]
     },
@@ -643,13 +650,13 @@ function updateParallax() {
 function chooseRandomConstellation() {
     const aspectRatio = window.innerWidth / window.innerHeight;
     const isMobilePortrait = aspectRatio < 0.85;
-    
+
     // Escolhe qual conjunto de constelações usar
     const constellationSet = isMobilePortrait ? CONSTELLATIONS_MOBILE : CONSTELLATIONS;
-    
+
     const keys = Object.keys(constellationSet);
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
-    
+
     currentConstellation = {
         name: randomKey,
         data: constellationSet[randomKey],
@@ -671,7 +678,7 @@ function calculateConstellationPositions() {
     if (!currentConstellation) return;
 
     const aspectRatio = canvas.width / canvas.height;
-    
+
     let paddingX, paddingY;
     let scaleX = 1;
     let scaleY = 1;
@@ -684,7 +691,7 @@ function calculateConstellationPositions() {
         paddingX = canvas.width * 0.05;
         paddingY = canvas.height * 0.08;
         // Sem escala adicional - as coordenadas já estão ajustadas
-        
+
     } else if (aspectRatio < 1) {
         // Desktop/tablet portrait sem versão mobile: usa escala adaptativa
         const minDim = Math.min(canvas.width, canvas.height);
@@ -692,7 +699,7 @@ function calculateConstellationPositions() {
         paddingY = canvas.height * 0.15;
         scaleY = 0.6;
         offsetY = 0.1;
-        
+
     } else {
         // Landscape e desktop: usa o algoritmo original
         const minDim = Math.min(canvas.width, canvas.height);
