@@ -10,12 +10,17 @@
     box-sizing: border-box;
 }
 
-/* Variáveis CSS para responsividade */
+/* Variáveis CSS para responsividade e visual */
 :root {
-    --moon-size: 80px;
-    --moon-top: 8%;
-    --moon-right: 10%;
-    --shooting-star-width: 100px;
+    --moon-size: clamp(40px, 12vw, 100px);
+    --moon-top: 5%;
+    --moon-right: 8%;
+    --shooting-star-width: clamp(50px, 15vw, 120px);
+
+    /* Cores das nebulas */
+    --nebula-1: rgba(255, 100, 150, 0.1);
+    --nebula-2: rgba(100, 180, 255, 0.1);
+    --nebula-3: rgba(255, 200, 100, 0.08);
 }
 
 /* Container do céu - ocupa toda a tela */
@@ -75,34 +80,47 @@ html {
 }
 
 /* ============================================
-   NEBULOSAS - Manchas coloridas com blur
+   NEBULOSAS - Manchas coloridas animadas
    ============================================ */
 #sky-container::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
     background:
-        /* Nebulosa rosa/roxa - canto superior esquerdo */
-        radial-gradient(ellipse 30% 20% at 15% 25%,
-            rgba(255, 100, 150, 0.08) 0%,
-            rgba(200, 50, 100, 0.04) 50%,
-            transparent 100%),
-        /* Nebulosa azul/cyan - centro inferior */
-        radial-gradient(ellipse 25% 30% at 60% 75%,
-            rgba(100, 180, 255, 0.08) 0%,
-            rgba(50, 100, 200, 0.04) 50%,
-            transparent 100%),
-        /* Nebulosa dourada/laranja - canto direito */
-        radial-gradient(ellipse 20% 25% at 85% 35%,
-            rgba(255, 200, 100, 0.06) 0%,
-            rgba(255, 150, 50, 0.03) 50%,
-            transparent 100%);
+        /* Nebulosa rosa/roxa */
+        radial-gradient(ellipse 30% 20% at 25% 35%,
+            var(--nebula-1) 0%,
+            transparent 80%),
+        /* Nebulosa azul/cyan */
+        radial-gradient(ellipse 25% 30% at 75% 65%,
+            var(--nebula-2) 0%,
+            transparent 80%),
+        /* Nebulosa dourada/laranja */
+        radial-gradient(ellipse 20% 25% at 45% 75%,
+            var(--nebula-3) 0%,
+            transparent 80%);
     z-index: 0;
     pointer-events: none;
-    filter: blur(30px);
+    filter: blur(60px);
+    animation: nebulaMove 60s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes nebulaMove {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.1);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
 }
 
 /* Canvas para estrelas - camada principal */
@@ -116,7 +134,7 @@ html {
 }
 
 /* ============================================
-   LUA - Com crateras e brilho
+   LUA - Com crateras e brilho premium
    ============================================ */
 #moon {
     position: absolute;
@@ -125,80 +143,75 @@ html {
     width: var(--moon-size);
     height: var(--moon-size);
     border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%,
-            #fffacd 0%,
-            /* Amarelo claro no centro */
-            #ffd700 40%,
-            /* Dourado */
+    background: radial-gradient(circle at 35% 35%,
+            #fff 0%,
+            #fffacd 20%,
+            #ffd700 45%,
             #e6c200 70%,
-            /* Dourado mais escuro */
-            rgba(255, 215, 0, 0.3) 100%);
+            #b8860b 100%);
     box-shadow:
-        0 0 30px rgba(255, 215, 0, 0.5),
-        0 0 60px rgba(255, 215, 0, 0.3),
-        0 0 100px rgba(255, 215, 0, 0.2);
+        0 0 40px rgba(255, 215, 0, 0.4),
+        0 0 80px rgba(255, 215, 0, 0.2),
+        inset -10px -10px 20px rgba(0, 0, 0, 0.2);
     z-index: 2;
-    animation: moonGlow 4s ease-in-out infinite;
+    animation: moonGlow 5s ease-in-out infinite;
 }
 
-/* Crateras da lua com pseudo-elementos */
+/* Crateras da lua com profundidade */
 #moon::before {
     content: '';
     position: absolute;
     border-radius: 50%;
-    /* Cratera grande */
     width: 25%;
     height: 25%;
     top: 55%;
     left: 20%;
-    background: radial-gradient(circle at 40% 40%,
-            rgba(180, 160, 100, 0.3) 0%,
-            rgba(200, 180, 120, 0.1) 100%);
+    background: rgba(180, 160, 100, 0.2);
     box-shadow:
-        inset 2px 2px 4px rgba(0, 0, 0, 0.2),
-        inset -1px -1px 2px rgba(255, 255, 255, 0.1),
-        /* Cratera média */
-        calc(var(--moon-size) * 0.35) calc(var(--moon-size) * -0.25) 0 calc(var(--moon-size) * -0.06) rgba(180, 160, 100, 0.25),
-        /* Cratera pequena */
-        calc(var(--moon-size) * 0.15) calc(var(--moon-size) * -0.45) 0 calc(var(--moon-size) * -0.08) rgba(180, 160, 100, 0.2);
+        inset 2px 2px 4px rgba(0, 0, 0, 0.3),
+        inset -1px -1px 2px rgba(255, 255, 255, 0.2),
+        /* Outras crateras */
+        calc(var(--moon-size) * 0.35) calc(var(--moon-size) * -0.25) 0 calc(var(--moon-size) * -0.06) rgba(150, 130, 80, 0.2),
+        calc(var(--moon-size) * 0.15) calc(var(--moon-size) * -0.45) 0 calc(var(--moon-size) * -0.08) rgba(150, 130, 80, 0.15);
 }
 
+/* Halo sutil em volta da lua */
 #moon::after {
     content: '';
     position: absolute;
+    top: -20%;
+    left: -20%;
+    width: 140%;
+    height: 140%;
     border-radius: 50%;
-    /* Crateras adicionais */
-    width: 15%;
-    height: 15%;
-    top: 25%;
-    left: 55%;
-    background: radial-gradient(circle at 40% 40%,
-            rgba(180, 160, 100, 0.25) 0%,
-            rgba(200, 180, 120, 0.08) 100%);
-    box-shadow:
-        inset 1px 1px 3px rgba(0, 0, 0, 0.15),
-        inset -1px -1px 2px rgba(255, 255, 255, 0.05),
-        /* Mais crateras pequenas */
-        calc(var(--moon-size) * -0.2) calc(var(--moon-size) * 0.15) 0 calc(var(--moon-size) * -0.04) rgba(180, 160, 100, 0.18),
-        calc(var(--moon-size) * 0.1) calc(var(--moon-size) * 0.25) 0 calc(var(--moon-size) * -0.05) rgba(180, 160, 100, 0.15);
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
+    z-index: -1;
+    animation: moonPulse 5s ease-in-out infinite;
 }
 
-/* Animação de brilho suave da lua */
 @keyframes moonGlow {
 
     0%,
     100% {
-        box-shadow:
-            0 0 30px rgba(255, 215, 0, 0.5),
-            0 0 60px rgba(255, 215, 0, 0.3),
-            0 0 100px rgba(255, 215, 0, 0.2);
+        filter: brightness(1) drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
     }
 
     50% {
-        box-shadow:
-            0 0 40px rgba(255, 215, 0, 0.6),
-            0 0 80px rgba(255, 215, 0, 0.4),
-            0 0 120px rgba(255, 215, 0, 0.25);
+        filter: brightness(1.1) drop-shadow(0 0 35px rgba(255, 215, 0, 0.5));
+    }
+}
+
+@keyframes moonPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.5;
     }
 }
 
@@ -259,39 +272,23 @@ html {
 /* Mobile grande */
 @media (max-width: 768px) {
     :root {
-        --moon-size: 50px;
-        --moon-top: 5%;
-        --moon-right: 5%;
-        --shooting-star-width: 60px;
+        --moon-top: 4%;
+        --moon-right: 4%;
     }
 
-    /* Nebulosas mais sutis em mobile */
+    /* Nebulosas mais sutis em mobile para performance */
     #sky-container::after {
-        filter: blur(20px);
-        opacity: 0.8;
+        opacity: 0.5;
+        animation-duration: 90s;
+        /* Mais lento no mobile */
     }
 }
 
-/* Mobile pequeno */
-@media (max-width: 480px) {
-    :root {
-        --moon-size: 40px;
-        --moon-top: 3%;
-        --moon-right: 3%;
-        --shooting-star-width: 50px;
-    }
-
-    /* Via Láctea mais sutil */
-    #sky-container::before {
-        opacity: 0.7;
-    }
-}
-
-/* Landscape mobile */
+/* Landscape mobile - evita que a lua cubra o centro */
 @media (max-height: 500px) {
     :root {
-        --moon-size: 35px;
-        --moon-top: 5%;
-        --moon-right: 5%;
+        --moon-size: 45px;
+        --moon-top: 4%;
+        --moon-right: 4%;
     }
 }

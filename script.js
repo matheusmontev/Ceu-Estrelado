@@ -609,6 +609,7 @@ function createBackgroundStars() {
                 // Propriedades para animação de piscar
                 twinkleSpeed: layerConfig.twinkleMin + Math.random() * (layerConfig.twinkleMax - layerConfig.twinkleMin),
                 twinklePhase: Math.random() * Math.PI * 2,
+                twinkleType: Math.random() > 0.8 ? 'flicker' : 'sin', // Diferentes tipos de piscar
                 baseOpacity: 0.4 + Math.random() * 0.6,
                 currentOpacity: 0,
                 // Parallax
@@ -626,7 +627,7 @@ function createBackgroundStars() {
  * Atualiza posições das estrelas com parallax
  */
 function updateParallax() {
-    // Interpolação suave da posição do mouse
+    // Interpolação suave da posição do mouse/giroscópio
     mousePosition.x += (targetMousePosition.x - mousePosition.x) * 0.05;
     mousePosition.y += (targetMousePosition.y - mousePosition.y) * 0.05;
 
@@ -641,6 +642,16 @@ function updateParallax() {
             star.y = star.baseY - offsetY * star.parallaxFactor;
         });
     });
+
+    // Aplica um parallax leve também na constelação se ela existir
+    if (currentConstellation && currentConstellation.points) {
+        currentConstellation.points.forEach(point => {
+            const parallaxX = offsetX * 0.015; // Parallax muito sutil
+            const parallaxY = offsetY * 0.015;
+            point.renderX = point.x - parallaxX;
+            point.renderY = point.y - parallaxY;
+        });
+    }
 }
 
 /**
@@ -672,58 +683,48 @@ function chooseRandomConstellation() {
 
 /**
  * Calcula as posições reais das estrelas da constelação
- * com responsividade melhorada para mobile
+ * com responsividade melhorada para qualquer tela
  */
 function calculateConstellationPositions() {
     if (!currentConstellation) return;
 
-    const aspectRatio = canvas.width / canvas.height;
+    const screenWidth = canvas.width;
+    const screenHeight = canvas.height;
+    const aspectRatio = screenWidth / screenHeight;
+    const isMobilePortrait = aspectRatio < 0.8;
 
-    let paddingX, paddingY;
-    let scaleX = 1;
-    let scaleY = 1;
-    let offsetX = 0;
-    let offsetY = 0;
+    // Define área segura (safe zone) para a constelação
+    let safeWidth, safeHeight, marginX, marginY;
 
-    // Se estamos usando a versão mobile, as coordenadas já estão otimizadas
-    if (currentConstellation.isMobileVersion) {
-        // Versão mobile: padding mínimo, usa coordenadas diretas
-        paddingX = canvas.width * 0.05;
-        paddingY = canvas.height * 0.08;
-        // Sem escala adicional - as coordenadas já estão ajustadas
-
-    } else if (aspectRatio < 1) {
-        // Desktop/tablet portrait sem versão mobile: usa escala adaptativa
-        const minDim = Math.min(canvas.width, canvas.height);
-        paddingX = minDim * CONFIG.PADDING_PERCENT;
-        paddingY = canvas.height * 0.15;
-        scaleY = 0.6;
-        offsetY = 0.1;
-
+    if (isMobilePortrait) {
+        // Mobile Portrait: Ocupa mais largura, centralizado verticalmente
+        safeWidth = screenWidth * 0.85;
+        safeHeight = screenHeight * 0.6; // Deixa espaço para lua e bordas
+        marginX = (screenWidth - safeWidth) / 2;
+        marginY = (screenHeight - safeHeight) / 2;
     } else {
-        // Landscape e desktop: usa o algoritmo original
-        const minDim = Math.min(canvas.width, canvas.height);
-        paddingX = minDim * CONFIG.PADDING_PERCENT;
-        paddingY = paddingX;
+        // Desktop / Landscape: Ocupa o centro
+        const minDim = Math.min(screenWidth, screenHeight);
+        safeWidth = minDim * 1.2;
+        safeHeight = minDim * 0.7;
 
-        if (aspectRatio > 2) {
-            // Tela muito larga
-            scaleY = Math.max(CONFIG.MIN_CONSTELLATION_SCALE, 1 / aspectRatio);
-            offsetY = (1 - scaleY) / 2;
-        }
+        // Limita ao tamanho da tela se necessário
+        if (safeWidth > screenWidth * 0.8) safeWidth = screenWidth * 0.8;
+        if (safeHeight > screenHeight * 0.8) safeHeight = screenHeight * 0.8;
+
+        marginX = (screenWidth - safeWidth) / 2;
+        marginY = (screenHeight - safeHeight) / 2;
     }
 
-    const width = canvas.width - paddingX * 2;
-    const height = canvas.height - paddingY * 2;
-
     currentConstellation.points = currentConstellation.data.points.map(point => {
-        // Aplica escala e offset para responsividade
-        const normalizedX = offsetX + point.x * scaleX;
-        const normalizedY = offsetY + point.y * scaleY;
+        const x = marginX + point.x * safeWidth;
+        const y = marginY + point.y * safeHeight;
 
         return {
-            x: paddingX + normalizedX * width,
-            y: paddingY + normalizedY * height,
+            x: x,
+            y: y,
+            renderX: x, // Coordenada usada para desenhar (com parallax)
+            renderY: y,
             size: 3,
             opacity: 0,
             isConstellationStar: true
@@ -732,12 +733,20 @@ function calculateConstellationPositions() {
 }
 
 /**
- * Desenha uma única estrela
+ * Desenha uma única estrela com efeito de brilho melhorado
  */
 function drawStar(star, time) {
-    // Calcula opacidade com base no piscar
-    const twinkle = Math.sin((time / star.twinkleSpeed) + star.twinklePhase);
-    const opacity = star.currentOpacity * (0.5 + twinkle * 0.5);
+    // Calcula opacidade com base no tipo de piscar
+    let twinkle;
+    if (star.twinkleType === 'flicker') {
+        // Piscar mais "nervoso" e aleatório
+        twinkle = Math.random() > 0.95 ? 0.3 : 1;
+    } else {
+        // Piscar suave senoidal
+        twinkle = 0.6 + Math.sin((time / star.twinkleSpeed) + star.twinklePhase) * 0.4;
+    }
+
+    const opacity = star.currentOpacity * twinkle;
 
     if (opacity <= 0.01) return;  // Não desenha se invisível
 
@@ -745,30 +754,36 @@ function drawStar(star, time) {
     ctx.globalAlpha = opacity;
 
     // Tamanho com efeito hover
-    const displaySize = star.size * (star.isHovered ? 1.8 : 1);
+    const displaySize = star.size * (star.isHovered ? 2.2 : 1);
 
-    // Efeito de brilho mais pronunciado para estrelas maiores
-    const glowMultiplier = star.layer === 2 ? 4 : (star.layer === 1 ? 3 : 2);
+    // Efeito de brilho (bloom) para estrelas maiores ou próximas
+    if (star.layer >= 1 && star.currentOpacity > 0.5) {
+        const glowSize = displaySize * (star.layer === 2 ? 6 : 4);
+        const gradient = ctx.createRadialGradient(
+            star.x, star.y, 0,
+            star.x, star.y, glowSize
+        );
+        gradient.addColorStop(0, star.color);
+        gradient.addColorStop(0.2, star.color + '44');
+        gradient.addColorStop(1, 'transparent');
 
-    const gradient = ctx.createRadialGradient(
-        star.x, star.y, 0,
-        star.x, star.y, displaySize * glowMultiplier
-    );
-    gradient.addColorStop(0, star.color);
-    gradient.addColorStop(0.3, star.color + 'aa');
-    gradient.addColorStop(0.6, star.color + '44');
-    gradient.addColorStop(1, 'transparent');
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, glowSize, 0, Math.PI * 2);
+        ctx.fill();
+    }
 
-    // Desenha o núcleo
+    // Núcleo da estrela
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, displaySize, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffffff'; // Núcleo sempre branco para brilho máximo
+    ctx.fill();
+
+    // Cor da estrela (overlay)
     ctx.beginPath();
     ctx.arc(star.x, star.y, displaySize, 0, Math.PI * 2);
     ctx.fillStyle = star.color;
-    ctx.fill();
-
-    // Halo de brilho
-    ctx.beginPath();
-    ctx.arc(star.x, star.y, displaySize * glowMultiplier, 0, Math.PI * 2);
-    ctx.fillStyle = gradient;
+    ctx.globalAlpha = opacity * 0.7;
     ctx.fill();
 
     ctx.restore();
@@ -791,8 +806,8 @@ function drawConstellationStars(time) {
 
         // Brilho intenso para estrelas da constelação
         const gradient = ctx.createRadialGradient(
-            point.x, point.y, 0,
-            point.x, point.y, size * 4
+            point.renderX, point.renderY, 0,
+            point.renderX, point.renderY, size * 4
         );
         gradient.addColorStop(0, CONFIG.COLORS.constellationGlow);
         gradient.addColorStop(0.3, CONFIG.COLORS.starBright);
@@ -800,13 +815,13 @@ function drawConstellationStars(time) {
 
         // Desenha o núcleo
         ctx.beginPath();
-        ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
+        ctx.arc(point.renderX, point.renderY, size, 0, Math.PI * 2);
         ctx.fillStyle = '#ffffff';
         ctx.fill();
 
         // Desenha o halo
         ctx.beginPath();
-        ctx.arc(point.x, point.y, size * 4, 0, Math.PI * 2);
+        ctx.arc(point.renderX, point.renderY, size * 4, 0, Math.PI * 2);
         ctx.fillStyle = gradient;
         ctx.fill();
 
@@ -838,8 +853,8 @@ function drawConstellationLines(time) {
 
         // Desenha o brilho da linha
         ctx.beginPath();
-        ctx.moveTo(start.x, start.y);
-        ctx.lineTo(end.x, end.y);
+        ctx.moveTo(start.renderX, start.renderY);
+        ctx.lineTo(end.renderX, end.renderY);
         ctx.strokeStyle = CONFIG.COLORS.constellationLine;
         ctx.lineWidth = 1 + glowBoost * 2;
         ctx.globalAlpha = (0.6 + glowBoost * 0.4) * pulse;
@@ -849,8 +864,8 @@ function drawConstellationLines(time) {
 
         // Linha central mais fina e brilhante
         ctx.beginPath();
-        ctx.moveTo(start.x, start.y);
-        ctx.lineTo(end.x, end.y);
+        ctx.moveTo(start.renderX, start.renderY);
+        ctx.lineTo(end.renderX, end.renderY);
         ctx.strokeStyle = '#ffffff';
         ctx.lineWidth = 0.5;
         ctx.globalAlpha = 0.8 * pulse;
@@ -1053,6 +1068,22 @@ function setupMouseInteraction() {
         targetMousePosition.x = 0.5;
         targetMousePosition.y = 0.5;
     });
+
+    // Suporte a Giroscópio para Mobile Parallax
+    if (window.DeviceOrientationEvent) {
+        window.addEventListener('deviceorientation', (e) => {
+            // Beta: inclinação frente/trás (-180 a 180)
+            // Gamma: inclinação esquerda/direita (-90 a 90)
+            if (e.beta !== null && e.gamma !== null) {
+                // Normaliza inclinação para um range útil (aprox -30 a 30 graus)
+                const normX = (e.gamma + 30) / 60;
+                const normY = (e.beta - 10) / 60; // Offset de 10 graus natural de segurar o celular
+
+                targetMousePosition.x = Math.max(0, Math.min(1, normX));
+                targetMousePosition.y = Math.max(0, Math.min(1, normY));
+            }
+        }, true);
+    }
 }
 
 /**
